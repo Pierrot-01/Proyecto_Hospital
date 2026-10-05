@@ -70,7 +70,7 @@ flowchart LR
     S3[(MinIO)]:::ext
     
     RepoSQL --> PG
-    Consultas -.->|SQL Directo (Performance)| PG
+    Consultas -.->|SQL Directo Alta Performance| PG
     RepoS3 --> S3
 
     %% Leyenda
