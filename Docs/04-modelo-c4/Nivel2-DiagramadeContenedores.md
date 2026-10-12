@@ -34,47 +34,47 @@ end
 %% Límite del Sistema HRA
 subgraph HRA_SYSTEM["SISTEMA DE GESTIÓN HOSPITALARIA (HRA)"]
     
-    SPA["<b>Aplicación Web (SPA)</b><br>[Contenedor: React / TypeScript]<br>Interfaz reactiva y responsiva para pacientes y personal clínico."]
+    SPA["<b>Aplicación Web (SPA)</b><br>React / TypeScript<br>Interfaz reactiva y responsiva para pacientes y personal clínico."]
     
-    API["<b>API Backend HRA</b><br>[Contenedor: Monolito Modular - Spring Boot / Node.js]<br>Expone API REST, aplica lógica médica, control de concurrencia y orquesta transacciones."]
+    API["<b>API Backend HRA</b><br>Monolito Modular - Spring Boot / Node.js<br>Expone API REST, aplica lógica médica y seguridad RBAC."]
     
-    Worker["<b>Workers en Segundo Plano</b><br>[Contenedor: Spring Tasks / Worker Process]<br>Procesa envíos de correos, generación masiva de PDFs y tareas programadas."]
+    Worker["<b>Workers en Segundo Plano</b><br>Spring Tasks / Workers<br>Procesa envíos de correos, generación de PDFs y tareas programadas."]
     
-    BD[("<b>Base de Datos Principal</b><br>[Contenedor: PostgreSQL 16]<br>Almacena pacientes, citas, historias clínicas, diagnósticos y pistas de auditoría.")]
+    BD[("<b>Base de Datos Principal</b><br>PostgreSQL 16<br>Historias clínicas, citas, pacientes, diagnósticos y auditoría.")]
     
-    Cache[("<b>Caché en Memoria</b><br>[Contenedor: Redis 7]<br>Caché de catálogos y bloqueo distribuido de turnos médicos.")]
+    Cache[("<b>Caché en Memoria</b><br>Redis 7<br>Caché de catálogos y bloqueo distribuido de turnos médicos.")]
     
-    Storage[("<b>Almacén de Archivos Médicos</b><br>[Contenedor: MinIO / S3 Object Storage]<br>Almacena archivos PDF firmados de laboratorio y estudios diagnósticos.")]
+    Storage[("<b>Almacén de Archivos Médicos</b><br>MinIO / S3 Storage<br>Almacena archivos PDF firmados de laboratorio y estudios diagnósticos.")]
 end
 
 %% Sistemas externos
 subgraph EXTERNOS["SISTEMAS EXTERNOS"]
-    RENIEC["Servicio RENIEC<br>[API Externa]"]
-    SMTP["Servicio SMTP / Mensajería<br>[Servicio Externo]"]
-    Firma["Servicio Firma Digital<br>[API Externa]"]
+    RENIEC["<b>Servicio RENIEC</b><br>API Externa"]
+    SMTP["<b>Servicio SMTP</b><br>Servicio Externo"]
+    Firma["<b>Servicio Firma Digital</b><br>API Externa"]
 end
 
 %% Relaciones de Usuarios
-Paciente -->|Usa portal web vía navegador [HTTPS]| SPA
-Personal -->|Accede a módulo asistencial [HTTPS]| SPA
-Admin -->|Administra parámetros del sistema [HTTPS]| SPA
+Paciente -->|Usa portal web via navegador HTTPS| SPA
+Personal -->|Accede a modulo asistencial HTTPS| SPA
+Admin -->|Administra parametros del sistema HTTPS| SPA
 
 %% SPA hacia Backend
-SPA -->|Consume endpoints REST y envía JWT [HTTPS / JSON]| API
+SPA -->|Consume endpoints REST con JWT| API
 
 %% Backend a Almacenes
-API -->|Lecturas y escrituras transaccionales [TCP / SQL]| BD
-API -->|Consulta cupos en caché y semáforos [TCP / Redis Protocol]| Cache
-API -->|Guarda y recupera archivos diagnósticos [HTTPS / S3 API]| Storage
+API -->|Lecturas y escrituras SQL| BD
+API -->|Consulta cupos en cache y semaforos| Cache
+API -->|Guarda y recupera archivos medicos| Storage
 
 %% Backend a Workers
-API -.->|Encola tareas asíncronas / eventos| Worker
-Worker -->|Actualiza estado de notificaciones [SQL]| BD
-Worker -->|Despacha correos masivos [SMTP / HTTPS]| SMTP
+API -.->|Encola tareas asincronas| Worker
+Worker -->|Actualiza estado en BD| BD
+Worker -->|Despacha correos masivos via SMTP| SMTP
 
 %% Backend a Externos
-API -->|Valida identidad con DNI [HTTPS / REST]| RENIEC
-API -->|Envía documentos para sellado digital [HTTPS / REST]| Firma
+API -->|Valida identidad con DNI via HTTPS| RENIEC
+API -->|Envia documentos para sellado digital| Firma
 
 %% Estilos
 style USUARIOS fill:#1e293b,stroke:#38bdf8,stroke-width:2px,color:#fff

@@ -1,8 +1,8 @@
 # Arquitectura inicial del sistema HRA
 
-## Diagrama de arquitectura
+![Arquitectura Inicial del Sistema Web HRA](../../Img/img01.png)
 
-![Arquitectura Inicial del Sistema HRA](../../Img/img01.png)
+## Diagrama de arquitectura
 
 ```mermaid
 flowchart TD

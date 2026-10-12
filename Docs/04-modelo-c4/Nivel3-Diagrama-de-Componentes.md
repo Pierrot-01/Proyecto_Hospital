@@ -59,7 +59,7 @@ subgraph SERVICIOS_EXTERNOS["SERVICIOS EXTERNOS"]
 end
 
 %% Flujos de entrada
-SPA -->|HTTPS / JSON| API_REST
+SPA -->|HTTPS y JSON| API_REST
 API_REST --> Usuarios
 API_REST --> Pacientes
 API_REST --> Citas
@@ -73,21 +73,21 @@ Resultados -->|Asocia a la atención médica| Atenciones
 Citas -.->|Publica CitaConfirmadaEvent| Notificaciones
 Resultados -.->|Publica ResultadoDisponibleEvent| Notificaciones
 
-Pacientes -.->|Evento de modificación sensible| Auditoria
-Citas -.->|Evento de reserva/cancelación| Auditoria
-Atenciones -.->|Evento de registro clínico| Auditoria
+Pacientes -.->|Evento de modificacion sensible| Auditoria
+Citas -.->|Evento de reserva o cancelacion| Auditoria
+Atenciones -.->|Evento de registro clinico| Auditoria
 
 %% Módulos a infraestructura / externos
 Pacientes -->|SQL| BD
 Pacientes -->|Adapter REST| RENIEC
 Citas -->|SQL| BD
-Citas -->|Decorator / Lock| Cache
+Citas -->|Decorator Cache y Lock| Cache
 Atenciones -->|SQL| BD
 Resultados -->|SQL| BD
 Resultados -->|Adapter S3| Storage
 Resultados -->|Adapter REST| Firma
 Notificaciones -->|Adapter SMTP| SMTP
-Auditoria -->|SQL (Solo INSERT)| BD
+Auditoria -->|SQL Solo INSERT| BD
 
 %% Estilos
 style ENTRADA fill:#1e293b,stroke:#38bdf8,stroke-width:2px,color:#fff

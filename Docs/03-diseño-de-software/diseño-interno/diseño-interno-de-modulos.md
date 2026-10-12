@@ -217,23 +217,23 @@ sequenceDiagram
     participant Repo as CitaRepository (PostgreSQL)
     participant Notif as NotificadorPort (SMTP)
 
-    Paciente->>Ctrl: POST /api/v1/citas (pacienteId, profesionalId, fechaHora)
+    Paciente->>Ctrl: POST /api/v1/citas con datos de reserva
     Ctrl->>UC: ejecutar(cmd)
     UC->>Repo: existeReservaEnHorario(cmd.horario)
     alt Horario ocupado
-        Repo-->>UC: true (ya existe cita)
+        Repo-->>UC: true - ya existe cita
         UC-->>Ctrl: throw CupoNoDisponibleError
-        Ctrl-->>Paciente: 409 Conflict ("El turno ya fue reservado")
+        Ctrl-->>Paciente: 409 Conflict Turno ya reservado
     else Horario libre
         Repo-->>UC: false
         UC->>Entidad: Cita.crear(cmd.pacienteId, cmd.horario)
-        Entidad-->>UC: Instancia Cita (estado PROGRAMADA)
+        Entidad-->>UC: Instancia Cita estado PROGRAMADA
         UC->>Repo: guardar(cita)
-        Repo-->>UC: OK (Persistencia confirmada)
+        Repo-->>UC: OK Persistencia confirmada
         UC->>Notif: notificarConfirmacion(cita, emailPaciente)
-        Notif-->>UC: OK (Aviso encolado/enviado)
+        Notif-->>UC: OK Aviso encolado
         UC-->>Ctrl: citaId
-        Ctrl-->>Paciente: 201 Created (citaId, detalles)
+        Ctrl-->>Paciente: 201 Created con citaId y detalles
     end
 ```
 

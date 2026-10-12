@@ -24,23 +24,23 @@ Mostrar el **Sistema Hospitalario HRA como una sola caja**: quiénes interactúa
 flowchart TD
 
 %% Personas
-subgraph PERSONAS["PERSONAS (USUARIOS)"]
-    Paciente["<b>Paciente</b><br>[Persona]<br>Solicita citas, consulta historial y descarga resultados diagnósticos."]
-    Admision["<b>Personal de Admisión</b><br>[Persona]<br>Registra pacientes presenciales, valida cupos y gestiona citas."]
-    Medico["<b>Médico / Profesional</b><br>[Persona]<br>Registra atenciones, emite órdenes diagnósticas y firma informes."]
-    AdminTI["<b>Administrador de TI</b><br>[Persona]<br>Administra cuentas, roles, catálogo hospitalario y auditoría."]
+subgraph PERSONAS["PERSONAS - USUARIOS"]
+    Paciente["<b>Paciente</b><br>Persona<br>Solicita citas, consulta historial y descarga resultados."]
+    Admision["<b>Personal de Admisión</b><br>Persona<br>Registra pacientes presenciales, valida cupos y gestiona citas."]
+    Medico["<b>Médico / Profesional</b><br>Persona<br>Registra atenciones, emite órdenes diagnósticas y firma informes."]
+    AdminTI["<b>Administrador de TI</b><br>Persona<br>Administra cuentas, roles, catálogo hospitalario y auditoría."]
 end
 
 %% Sistema en alcance
 subgraph ALCANCE["SISTEMA EN ALCANCE"]
-    HRA["<b>Sistema HRA</b><br>[Sistema de Software]<br>Plataforma integral de gestión de citas, atenciones médicas y resultados diagnósticos."]
+    HRA["<b>Sistema HRA</b><br>Sistema de Software<br>Plataforma integral de gestión de citas, atenciones y resultados."]
 end
 
 %% Sistemas externos
 subgraph EXTERNOS["SISTEMAS EXTERNOS"]
-    RENIEC["<b>Servicio RENIEC</b><br>[Sistema Externo]<br>Valida identidad del ciudadano mediante DNI."]
-    Notificador["<b>Servicio Notificaciones</b><br>[Sistema Externo]<br>Envía correos electrónicos y mensajes de confirmación."]
-    Firma["<b>Servicio Firma Digital</b><br>[Sistema Externo]<br>Certifica e impone sellos de tiempo a informes médicos."]
+    RENIEC["<b>Servicio RENIEC</b><br>Sistema Externo<br>Valida identidad del ciudadano mediante DNI."]
+    Notificador["<b>Servicio Notificaciones</b><br>Sistema Externo<br>Envía correos electrónicos y mensajes de confirmación."]
+    Firma["<b>Servicio Firma Digital</b><br>Sistema Externo<br>Certifica e impone sellos de tiempo a informes médicos."]
 end
 
 %% Relaciones
@@ -49,9 +49,9 @@ Admision -->|Registra filiación y gestiona turnos presenciales| HRA
 Medico -->|Registra atenciones y emite diagnósticos| HRA
 AdminTI -->|Configura roles, horarios y monitorea auditoría| HRA
 
-HRA -->|Consulta y valida datos del DNI [HTTPS/REST]| RENIEC
-HRA -->|Despacha recordatorios y avisos clínicos [HTTPS/REST / SMTP]| Notificador
-HRA -->|Solicita sellado y firma electrónica de informes [HTTPS/REST]| Firma
+HRA -->|Consulta y valida datos del DNI via HTTPS REST| RENIEC
+HRA -->|Despacha recordatorios y avisos clinicos via SMTP| Notificador
+HRA -->|Solicita sellado y firma electronica via HTTPS| Firma
 
 %% Estilos
 style PERSONAS fill:#1e293b,stroke:#38bdf8,stroke-width:2px,color:#fff
