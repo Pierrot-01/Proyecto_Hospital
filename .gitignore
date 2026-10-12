@@ -1,0 +1,12 @@
+# Dependencias y compilación
+node_modules/
+dist/
+dist-pruebas/
+.angular/cache/
+
+# IDE y sistema
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.log

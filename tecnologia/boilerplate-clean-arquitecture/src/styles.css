@@ -1,0 +1,31 @@
+:root {
+  --hra-primary: #0284c7;
+  --hra-primary-dark: #0369a1;
+  --hra-secondary: #0f172a;
+  --hra-success: #16a34a;
+  --hra-warning: #ea580c;
+  --hra-danger: #dc2626;
+  --hra-bg: #f8fafc;
+  --hra-card-bg: #ffffff;
+  --hra-border: #e2e8f0;
+  --hra-text: #1e293b;
+  --hra-text-muted: #64748b;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: var(--hra-bg);
+  color: var(--hra-text);
+  line-height: 1.5;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}

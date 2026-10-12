@@ -1,0 +1,14 @@
+# Compilacion y dependencias
+/dist
+/dist-pruebas
+/node_modules
+
+# Logs y temporales
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+/.angular/cache
+
+# Entornos y SO
+.DS_Store
+Thumbs.db
