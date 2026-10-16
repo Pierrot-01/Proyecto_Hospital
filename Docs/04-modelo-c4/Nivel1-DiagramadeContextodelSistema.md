@@ -20,54 +20,56 @@ Mostrar el **Sistema Hospitalario HRA como una sola caja**: quiénes interactúa
 
 ## 2. Diagrama
 
+<!-- imagen #07 — C4 Nivel 1: Diagrama de Contexto del Sistema HRA -->
+
 ```mermaid
 flowchart TD
 
 %% Personas
-subgraph PERSONAS["PERSONAS - USUARIOS"]
-    Paciente["<b>Paciente</b><br>Persona<br>Solicita citas, consulta historial y descarga resultados."]
-    Admision["<b>Personal de Admisión</b><br>Persona<br>Registra pacientes presenciales, valida cupos y gestiona citas."]
-    Medico["<b>Médico / Profesional</b><br>Persona<br>Registra atenciones, emite órdenes diagnósticas y firma informes."]
-    AdminTI["<b>Administrador de TI</b><br>Persona<br>Administra cuentas, roles, catálogo hospitalario y auditoría."]
+subgraph PERSONAS["👥 PERSONAS — Usuarios del Sistema"]
+    Paciente["<b>Paciente</b><br>Persona<br>Reserva citas, consulta historial<br>y descarga resultados."]
+    Admision["<b>Personal de Admisión</b><br>Persona<br>Registra pacientes y gestiona<br>turnos presenciales."]
+    Medico["<b>Médico / Profesional</b><br>Persona<br>Registra atenciones y firma<br>informes diagnósticos."]
+    AdminTI["<b>Administrador de TI</b><br>Persona<br>Administra cuentas, roles<br>y pistas de auditoría."]
 end
 
 %% Sistema en alcance
-subgraph ALCANCE["SISTEMA EN ALCANCE"]
-    HRA["<b>Sistema HRA</b><br>Sistema de Software<br>Plataforma integral de gestión de citas, atenciones y resultados."]
+subgraph ALCANCE["🏥 SISTEMA EN ALCANCE"]
+    HRA["<b>Sistema HRA</b><br>Sistema de Software<br>Plataforma integral de gestión de citas,<br>atenciones y resultados diagnósticos."]
 end
 
 %% Sistemas externos
-subgraph EXTERNOS["SISTEMAS EXTERNOS"]
-    RENIEC["<b>Servicio RENIEC</b><br>Sistema Externo<br>Valida identidad del ciudadano mediante DNI."]
-    Notificador["<b>Servicio Notificaciones</b><br>Sistema Externo<br>Envía correos electrónicos y mensajes de confirmación."]
-    Firma["<b>Servicio Firma Digital</b><br>Sistema Externo<br>Certifica e impone sellos de tiempo a informes médicos."]
+subgraph EXTERNOS["🌐 SISTEMAS EXTERNOS"]
+    RENIEC["<b>Servicio RENIEC</b><br>Sistema Externo<br>Valida identidad del ciudadano<br>mediante DNI."]
+    Notificador["<b>Servicio de Notificaciones</b><br>Sistema Externo<br>Envía correos electrónicos<br>y mensajes de confirmación."]
+    Firma["<b>Servicio Firma Digital</b><br>Sistema Externo<br>Certifica e impone sellos de<br>tiempo a informes médicos."]
 end
 
 %% Relaciones
-Paciente -->|Consulta disponibilidad, reserva citas y descarga resultados| HRA
-Admision -->|Registra filiación y gestiona turnos presenciales| HRA
-Medico -->|Registra atenciones y emite diagnósticos| HRA
-AdminTI -->|Configura roles, horarios y monitorea auditoría| HRA
+Paciente -->|"Consulta disponibilidad, reserva<br>citas y descarga resultados"| HRA
+Admision -->|"Registra filiación y gestiona<br>turnos presenciales"| HRA
+Medico -->|"Registra atenciones<br>y emite diagnósticos"| HRA
+AdminTI -->|"Configura roles, horarios<br>y monitorea auditoría"| HRA
 
-HRA -->|Consulta y valida datos del DNI via HTTPS REST| RENIEC
-HRA -->|Despacha recordatorios y avisos clinicos via SMTP| Notificador
-HRA -->|Solicita sellado y firma electronica via HTTPS| Firma
+HRA -->|"Consulta y valida DNI<br>via HTTPS REST"| RENIEC
+HRA -->|"Despacha recordatorios<br>y avisos clínicos via SMTP"| Notificador
+HRA -->|"Solicita sellado y firma<br>electrónica via HTTPS"| Firma
 
-%% Estilos
-style PERSONAS fill:#1e293b,stroke:#38bdf8,stroke-width:2px,color:#fff
-style ALCANCE fill:#0f172a,stroke:#22c55e,stroke-width:2px,color:#fff
-style EXTERNOS fill:#1e293b,stroke:#eab308,stroke-width:2px,color:#fff
+%% Estilos — azul para personas, verde para sistema, naranja para externos
+style PERSONAS fill:#0c4a6e,stroke:#38bdf8,stroke-width:2px,color:#fff
+style ALCANCE fill:#0f172a,stroke:#22c55e,stroke-width:3px,color:#fff
+style EXTERNOS fill:#7c2d12,stroke:#f97316,stroke-width:2px,color:#fff
 
-style Paciente fill:#334155,stroke:#38bdf8,color:#fff
-style Admision fill:#334155,stroke:#38bdf8,color:#fff
-style Medico fill:#334155,stroke:#38bdf8,color:#fff
-style AdminTI fill:#334155,stroke:#38bdf8,color:#fff
+style Paciente fill:#075985,stroke:#38bdf8,color:#fff
+style Admision fill:#075985,stroke:#38bdf8,color:#fff
+style Medico fill:#075985,stroke:#38bdf8,color:#fff
+style AdminTI fill:#075985,stroke:#38bdf8,color:#fff
 
 style HRA fill:#14532d,stroke:#22c55e,stroke-width:3px,color:#fff
 
-style RENIEC fill:#422006,stroke:#eab308,color:#fff
-style Notificador fill:#422006,stroke:#eab308,color:#fff
-style Firma fill:#422006,stroke:#eab308,color:#fff
+style RENIEC fill:#9a3412,stroke:#f97316,color:#fff
+style Notificador fill:#9a3412,stroke:#f97316,color:#fff
+style Firma fill:#9a3412,stroke:#f97316,color:#fff
 ```
 
 ![Diagrama de contexto del Sistema HRA](../../Img/img04.png)

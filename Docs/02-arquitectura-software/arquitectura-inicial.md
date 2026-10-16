@@ -4,74 +4,76 @@
 
 ## Diagrama de arquitectura
 
+<!-- imagen #01 — Arquitectura Inicial General del Sistema HRA -->
+
 ```mermaid
 flowchart TD
 
 %% =========================
 %% ACTORES
 %% =========================
-subgraph ACTORES["ACTORES"]
-    Paciente["Paciente"]
-    Admision["Personal de Admisión"]
-    Medico["Médico / Profesional de Salud"]
-    AdminTI["Administrador de TI"]
+subgraph ACTORES["👥 ACTORES DEL SISTEMA"]
+    Paciente["<b>Paciente</b><br>Reserva citas y descarga resultados"]
+    Admision["<b>Personal de Admisión</b><br>Registra pacientes y gestiona turnos"]
+    Medico["<b>Médico / Profesional</b><br>Registra atenciones y firma diagnósticos"]
+    AdminTI["<b>Administrador de TI</b><br>Gestiona roles, catálogos y auditoría"]
 end
 
 %% =========================
 %% PRESENTACIÓN
 %% =========================
-subgraph PRESENTACION["PRESENTACIÓN"]
-    Web["Aplicación Web (SPA)"]
-    API["API REST Gateway / Entrypoint"]
+subgraph PRESENTACION["🖥️ CAPA DE PRESENTACIÓN"]
+    Web["<b>Aplicación Web (SPA)</b><br>Angular 18 · TypeScript<br>Interfaz responsiva — HTTPS"]
+    API["<b>API REST Gateway</b><br>Entrypoint unificado<br>JWT · Validación DTOs · RBAC"]
 end
 
 %% =========================
 %% LÓGICA DE NEGOCIO (MÓDULOS)
 %% =========================
-subgraph NEGOCIO["LÓGICA DE NEGOCIO (MONOLITO MODULAR)"]
-    Usuarios["Usuarios y Autenticación"]
-    Pacientes["Gestión de Pacientes"]
-    Citas["Citas y Programación de Horarios"]
-    Atenciones["Atenciones Clínicas"]
-    Resultados["Diagnósticos y Resultados Médicos"]
-    Notificaciones["Notificaciones"]
-    Auditoria["Auditoría y Trazabilidad"]
+subgraph NEGOCIO["⚙️ LÓGICA DE NEGOCIO — MONOLITO MODULAR"]
+    Usuarios["<b>Usuarios y Autenticación</b><br>Credenciales, roles y tokens JWT"]
+    Pacientes["<b>Gestión de Pacientes</b><br>Filiación, historia clínica y DNI"]
+    Citas["<b>Citas y Programación</b><br>Agendas, cupos y reserva concurrente"]
+    Atenciones["<b>Atenciones Clínicas</b><br>Consultas médicas y evolución"]
+    Resultados["<b>Diagnósticos y Resultados</b><br>Laboratorio, imágenes y PDFs"]
+    Notificaciones["<b>Notificaciones</b><br>Correos y alertas asíncronas"]
+    Auditoria["<b>Auditoría</b><br>Pistas inmutables — solo INSERT"]
 end
 
 %% =========================
 %% DATOS Y ALMACENAMIENTO
 %% =========================
-subgraph DATOS["DATOS Y CACHÉ"]
-    BD[("Base de Datos Relacional (PostgreSQL)")]
-    Cache[("Caché en Memoria (Redis)")]
-    Storage[("Almacenamiento de Archivos (MinIO / S3)")]
+subgraph DATOS["💾 DATOS Y CACHÉ"]
+    BD[("🗄️ PostgreSQL 16<br>Garantía ACID — Transacciones")]
+    Cache[("⚡ Redis 7<br>Caché y Candados Distribuidos")]
+    Storage[("📁 MinIO / S3<br>PDFs e Imágenes Médicas")]
 end
 
 %% =========================
 %% SISTEMAS EXTERNOS
 %% =========================
-subgraph EXTERNOS["SISTEMAS EXTERNOS"]
-    RENIEC["Servicio RENIEC (Validación DNI)"]
-    EmailSMS["Servicio de Notificaciones (SMTP / WhatsApp)"]
-    FirmaDigital["Servicio de Firma / Sellado Digital"]
+subgraph EXTERNOS["🌐 SISTEMAS EXTERNOS"]
+    RENIEC["<b>RENIEC</b><br>Validación DNI — HTTPS REST"]
+    EmailSMS["<b>Servicio SMTP</b><br>Correos y alertas — TLS 587"]
+    FirmaDigital["<b>Firma Digital</b><br>Sellado criptográfico — HTTPS"]
 end
 
 %% =========================
 %% FLUJO PRINCIPAL
 %% =========================
-ACTORES --> Web
-Web --> API
-API --> NEGOCIO
-NEGOCIO --> BD
-NEGOCIO --> Cache
-NEGOCIO --> Storage
+ACTORES -->|"HTTPS — Navegador web"| Web
+Web -->|"REST + JWT"| API
+API -->|"Invocación en memoria"| NEGOCIO
+NEGOCIO -->|"SQL transaccional"| BD
+Citas -->|"SET NX EX — Candado"| Cache
+NEGOCIO -->|"S3 API — Archivos"| Storage
 
 %% =========================
 %% INTEGRACIONES EXTERNAS
 %% =========================
-Pacientes --> RENIEC
-Notificaciones --> EmailSMS
-Resultados --> FirmaDigital
+Pacientes -->|"Adapter HTTPS REST"| RENIEC
+Notificaciones -->|"Adapter SMTP"| EmailSMS
+Resultados -->|"Adapter HTTPS REST"| FirmaDigital
 
 %% =========================
 %% DISTRIBUCIÓN HORIZONTAL
@@ -94,37 +96,37 @@ RENIEC ~~~ EmailSMS
 EmailSMS ~~~ FirmaDigital
 
 %% =========================
-%% ESTILOS
+%% ESTILOS — Un color por capa
 %% =========================
-style ACTORES fill:#1e293b,stroke:#38bdf8,stroke-width:2px,color:#fff
-style PRESENTACION fill:#1e293b,stroke:#38bdf8,stroke-width:2px,color:#fff
-style NEGOCIO fill:#1e293b,stroke:#38bdf8,stroke-width:2px,color:#fff
-style DATOS fill:#1e293b,stroke:#38bdf8,stroke-width:2px,color:#fff
-style EXTERNOS fill:#1e293b,stroke:#38bdf8,stroke-width:2px,color:#fff
+style ACTORES fill:#0c4a6e,stroke:#38bdf8,stroke-width:2px,color:#fff
+style PRESENTACION fill:#1e1b4b,stroke:#818cf8,stroke-width:2px,color:#fff
+style NEGOCIO fill:#14532d,stroke:#22c55e,stroke-width:2px,color:#fff
+style DATOS fill:#78350f,stroke:#fbbf24,stroke-width:2px,color:#fff
+style EXTERNOS fill:#7c2d12,stroke:#f97316,stroke-width:2px,color:#fff
 
-style Paciente fill:#0f172a,stroke:#38bdf8,color:#fff
-style Admision fill:#0f172a,stroke:#38bdf8,color:#fff
-style Medico fill:#0f172a,stroke:#38bdf8,color:#fff
-style AdminTI fill:#0f172a,stroke:#38bdf8,color:#fff
+style Paciente fill:#075985,stroke:#38bdf8,color:#fff
+style Admision fill:#075985,stroke:#38bdf8,color:#fff
+style Medico fill:#075985,stroke:#38bdf8,color:#fff
+style AdminTI fill:#075985,stroke:#38bdf8,color:#fff
 
-style Web fill:#0f172a,stroke:#38bdf8,color:#fff
-style API fill:#0f172a,stroke:#38bdf8,color:#fff
+style Web fill:#312e81,stroke:#a5b4fc,color:#fff
+style API fill:#312e81,stroke:#a5b4fc,color:#fff
 
-style Usuarios fill:#0f172a,stroke:#38bdf8,color:#fff
-style Pacientes fill:#0f172a,stroke:#38bdf8,color:#fff
-style Citas fill:#0f172a,stroke:#38bdf8,color:#fff
-style Atenciones fill:#0f172a,stroke:#38bdf8,color:#fff
-style Resultados fill:#0f172a,stroke:#38bdf8,color:#fff
-style Notificaciones fill:#0f172a,stroke:#38bdf8,color:#fff
-style Auditoria fill:#0f172a,stroke:#38bdf8,color:#fff
+style Usuarios fill:#15803d,stroke:#4ade80,color:#fff
+style Pacientes fill:#15803d,stroke:#4ade80,color:#fff
+style Citas fill:#166534,stroke:#86efac,stroke-width:2px,color:#fff
+style Atenciones fill:#15803d,stroke:#4ade80,color:#fff
+style Resultados fill:#15803d,stroke:#4ade80,color:#fff
+style Notificaciones fill:#15803d,stroke:#4ade80,color:#fff
+style Auditoria fill:#14532d,stroke:#6ee7b7,color:#fff
 
-style BD fill:#0f172a,stroke:#38bdf8,color:#fff
-style Cache fill:#0f172a,stroke:#38bdf8,color:#fff
-style Storage fill:#0f172a,stroke:#38bdf8,color:#fff
+style BD fill:#92400e,stroke:#fde68a,color:#fff
+style Cache fill:#92400e,stroke:#fde68a,color:#fff
+style Storage fill:#92400e,stroke:#fde68a,color:#fff
 
-style RENIEC fill:#0f172a,stroke:#38bdf8,color:#fff
-style EmailSMS fill:#0f172a,stroke:#38bdf8,color:#fff
-style FirmaDigital fill:#0f172a,stroke:#38bdf8,color:#fff
+style RENIEC fill:#9a3412,stroke:#fdba74,color:#fff
+style EmailSMS fill:#9a3412,stroke:#fdba74,color:#fff
+style FirmaDigital fill:#9a3412,stroke:#fdba74,color:#fff
 ```
 
 ## Descripción

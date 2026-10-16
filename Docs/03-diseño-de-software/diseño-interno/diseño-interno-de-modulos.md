@@ -69,25 +69,60 @@ src/
 
 ## 3. Capas del módulo y regla de dependencia
 
+<!-- imagen #04 — Regla de Dependencia: Capas de Clean Architecture con clases reales -->
+
 ```mermaid
 flowchart TD
-    subgraph PRESENTACION["PRESENTACIÓN (Controladores, Rutas)"]
-    end
-    subgraph APLICACION["APLICACIÓN (Casos de Uso, Comandos)"]
-    end
-    subgraph DOMINIO["DOMINIO (Entidades, Puertos, Reglas)"]
-    end
-    subgraph INFRAESTRUCTURA["INFRAESTRUCTURA (PostgreSQL, Redis, SMTP)"]
+
+    subgraph PRESENTACION["🖥️ PRESENTACIÓN — Controladores HTTP"]
+        P1["<b>CitaController</b><br>POST /api/v1/citas<br>Traduce HTTP ⇄ Casos de Uso"]
+        P2["<b>DTOs de Entrada y JWT Guards</b><br>Validación de esquemas y roles RBAC"]
     end
 
-    PRESENTACION --> APLICACION
-    APLICACION --> DOMINIO
-    INFRAESTRUCTURA --> DOMINIO
+    subgraph APLICACION["⚙️ APLICACIÓN — Casos de Uso (sin frameworks)"]
+        A1["<b>ReservarCitaUseCase</b><br>Orquesta: candado → validar → guardar → notificar"]
+        A2["<b>CancelarCitaUseCase</b><br>Libera cupo y notifica al paciente"]
+        A3["<b>ReservarCitaCommand</b><br>DTO validado de entrada"]
+    end
 
-    style DOMINIO fill:#065f46,stroke:#34d399,stroke-width:2px,color:#fff
+    subgraph DOMINIO["💎 DOMINIO — Núcleo Puro (sin dependencias externas)"]
+        D1["<b>Entidad: Cita</b><br>RN-01 a RN-08 · Estado · cancelar()"]
+        D2["<b>Obj. de Valor: HorarioCupo</b><br>Inmutable · esFutura()"]
+        D3["«interface» CitaRepository<br>guardar() · existeReserva()"]
+        D4["«interface» NotificadorPort<br>notificarConfirmacion()"]
+        D5["«interface» BloqueoCupoPort<br>adquirirBloqueo() · liberarBloqueo()"]
+    end
+
+    subgraph INFRAESTRUCTURA["🔧 INFRAESTRUCTURA — Adaptadores Concretos"]
+        I1["<b>PostgresCitaRepository</b><br>Implementa CitaRepository con SQL"]
+        I2["<b>RedisBloqueoAdapter</b><br>Implementa BloqueoCupoPort con SET NX EX"]
+        I3["<b>SmtpNotificadorAdapter</b><br>Implementa NotificadorPort con JavaMail"]
+    end
+
+    PRESENTACION -->|"Dependencia hacia adentro"| APLICACION
+    APLICACION -->|"Dependencia hacia adentro"| DOMINIO
+    I1 -.->|"DIP: implementa interfaz"| D3
+    I2 -.->|"DIP: implementa interfaz"| D5
+    I3 -.->|"DIP: implementa interfaz"| D4
+
+    style DOMINIO fill:#065f46,stroke:#34d399,stroke-width:3px,color:#fff
     style APLICACION fill:#1e3a8a,stroke:#60a5fa,stroke-width:2px,color:#fff
     style INFRAESTRUCTURA fill:#78350f,stroke:#fbbf24,stroke-width:2px,color:#fff
     style PRESENTACION fill:#4c1d95,stroke:#c084fc,stroke-width:2px,color:#fff
+
+    style P1 fill:#312e81,stroke:#a5b4fc,color:#fff
+    style P2 fill:#312e81,stroke:#a5b4fc,color:#fff
+    style A1 fill:#1e40af,stroke:#93c5fd,color:#fff
+    style A2 fill:#1e40af,stroke:#93c5fd,color:#fff
+    style A3 fill:#1e40af,stroke:#93c5fd,color:#fff
+    style D1 fill:#047857,stroke:#6ee7b7,color:#fff
+    style D2 fill:#047857,stroke:#6ee7b7,color:#fff
+    style D3 fill:#065f46,stroke:#a7f3d0,color:#fff
+    style D4 fill:#065f46,stroke:#a7f3d0,color:#fff
+    style D5 fill:#065f46,stroke:#a7f3d0,color:#fff
+    style I1 fill:#78350f,stroke:#fde68a,color:#fff
+    style I2 fill:#78350f,stroke:#fde68a,color:#fff
+    style I3 fill:#78350f,stroke:#fde68a,color:#fff
 ```
 
 ![Diagrama de paquetes del módulo Citas](../../../Img/img03.png)
@@ -105,6 +140,8 @@ flowchart TD
 ---
 
 ## 4. Diagrama de clases del módulo Citas
+
+<!-- imagen #05 — Diagrama UML de Clases del Módulo Citas -->
 
 ```mermaid
 classDiagram
@@ -206,6 +243,8 @@ classDiagram
 ---
 
 ## 5. Flujo de ejecución: reservar cita
+
+<!-- imagen #06 — Diagrama de Secuencia: Flujo Reservar Cita Médica -->
 
 ```mermaid
 sequenceDiagram

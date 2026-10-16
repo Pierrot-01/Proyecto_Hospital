@@ -24,6 +24,8 @@
 
 ## Diagrama del enfoque arquitectónico: Clean Architecture en Capas
 
+<!-- imagen #03 — Enfoque Arquitectónico: Clean Architecture con DIP -->
+
 ![Enfoque Arquitectónico Clean Architecture](../../Img/img02.png)
 
 ```mermaid

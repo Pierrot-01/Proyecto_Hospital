@@ -21,6 +21,8 @@ Abrir el contenedor **API Backend HRA** del Nivel 2 y mostrar sus **componentes 
 
 ## 2. Diagrama
 
+<!-- imagen #09 — C4 Nivel 3: Diagrama de Componentes del Backend HRA -->
+
 ```mermaid
 flowchart TD
 
@@ -78,16 +80,17 @@ Citas -.->|Evento de reserva o cancelacion| Auditoria
 Atenciones -.->|Evento de registro clinico| Auditoria
 
 %% Módulos a infraestructura / externos
-Pacientes -->|SQL| BD
-Pacientes -->|Adapter REST| RENIEC
-Citas -->|SQL| BD
-Citas -->|Decorator Cache y Lock| Cache
-Atenciones -->|SQL| BD
-Resultados -->|SQL| BD
-Resultados -->|Adapter S3| Storage
-Resultados -->|Adapter REST| Firma
-Notificaciones -->|Adapter SMTP| SMTP
-Auditoria -->|SQL Solo INSERT| BD
+Pacientes -->|"SQL"| BD
+Pacientes -->|"Adapter REST"| RENIEC
+Citas -->|"SQL transaccional"| BD
+Citas -->|"Decorator Caché + Candado SET NX EX"| Cache
+Atenciones -->|"SQL"| BD
+Resultados -->|"SQL"| BD
+Resultados -->|"Adapter S3"| Storage
+Resultados -->|"Adapter REST"| Firma
+Notificaciones -->|"Adapter SMTP TLS"| SMTP
+Auditoria -->|"SQL solo INSERT — inmutable"| BD
+Usuarios -->|"SQL"| BD
 
 %% Estilos
 style ENTRADA fill:#1e293b,stroke:#38bdf8,stroke-width:2px,color:#fff

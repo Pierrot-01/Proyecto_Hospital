@@ -1,7 +1,9 @@
 # Sistema de Gestión Hospitalaria (HRA)
 
-## Estudiante
-Jhony Alberto Sulca Mendoza
+## Nombre
+Nombre: Jhony Alberto Sulca Mendoza
+Curso: Arquitectura de Software
+Descripción: Sistema Web para la Gestión de Citas Médicas y Entrega de Resultados
 
 ## Descripción
 Sistema Web para la Gestión de Citas Médicas y Entrega de Resultados del Hospital Regional Docente de Las Mercedes (HRA).

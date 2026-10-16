@@ -21,6 +21,8 @@ Abrir la caja «Sistema HRA» del Nivel 1 y mostrar los **contenedores ejecutabl
 
 ## 2. Diagrama
 
+<!-- imagen #08 — C4 Nivel 2: Diagrama de Contenedores del Sistema HRA -->
+
 ```mermaid
 flowchart TD
 
@@ -34,11 +36,11 @@ end
 %% Límite del Sistema HRA
 subgraph HRA_SYSTEM["SISTEMA DE GESTIÓN HOSPITALARIA (HRA)"]
     
-    SPA["<b>Aplicación Web (SPA)</b><br>React / TypeScript<br>Interfaz reactiva y responsiva para pacientes y personal clínico."]
+    SPA["<b>Aplicación Web (SPA)</b><br>Angular 18 / TypeScript<br>Interfaz reactiva y responsiva para pacientes y personal clínico."]
     
     API["<b>API Backend HRA</b><br>Monolito Modular - Spring Boot / Node.js<br>Expone API REST, aplica lógica médica y seguridad RBAC."]
     
-    Worker["<b>Workers en Segundo Plano</b><br>Spring Tasks / Workers<br>Procesa envíos de correos, generación de PDFs y tareas programadas."]
+    Worker["<b>Workers en Segundo Plano</b><br>Procesos Asíncronos<br>Genera PDFs médicos, despacha correos y ejecuta tareas programadas."]
     
     BD[("<b>Base de Datos Principal</b><br>PostgreSQL 16<br>Historias clínicas, citas, pacientes, diagnósticos y auditoría.")]
     
@@ -54,27 +56,26 @@ subgraph EXTERNOS["SISTEMAS EXTERNOS"]
     Firma["<b>Servicio Firma Digital</b><br>API Externa"]
 end
 
-%% Relaciones de Usuarios
-Paciente -->|Usa portal web via navegador HTTPS| SPA
-Personal -->|Accede a modulo asistencial HTTPS| SPA
-Admin -->|Administra parametros del sistema HTTPS| SPA
+Paciente -->|"Usa portal web HTTPS"| SPA
+Personal -->|"Accede a módulo asistencial HTTPS"| SPA
+Admin -->|"Administra parámetros HTTPS"| SPA
 
 %% SPA hacia Backend
-SPA -->|Consume endpoints REST con JWT| API
+SPA -->|"REST + JWT Bearer"| API
 
 %% Backend a Almacenes
-API -->|Lecturas y escrituras SQL| BD
-API -->|Consulta cupos en cache y semaforos| Cache
-API -->|Guarda y recupera archivos medicos| Storage
+API -->|"SQL transaccional Puerto 5432"| BD
+API -->|"Candados SET NX EX Puerto 6379"| Cache
+API -->|"S3 API — archivos médicos"| Storage
 
 %% Backend a Workers
-API -.->|Encola tareas asincronas| Worker
-Worker -->|Actualiza estado en BD| BD
-Worker -->|Despacha correos masivos via SMTP| SMTP
+API -.-|"Encola tareas asíncronas"| Worker
+Worker -->|"Actualiza estado en BD"| BD
+Worker -->|"Despacha correos TLS 587"| SMTP
 
 %% Backend a Externos
-API -->|Valida identidad con DNI via HTTPS| RENIEC
-API -->|Envia documentos para sellado digital| Firma
+API -->|"Valida DNI HTTPS REST"| RENIEC
+API -->|"Envía documentos sellado digital"| Firma
 
 %% Estilos
 style USUARIOS fill:#1e293b,stroke:#38bdf8,stroke-width:2px,color:#fff
@@ -83,7 +84,7 @@ style EXTERNOS fill:#1e293b,stroke:#eab308,stroke-width:2px,color:#fff
 
 style SPA fill:#1e3a8a,stroke:#60a5fa,color:#fff
 style API fill:#14532d,stroke:#4ade80,stroke-width:2px,color:#fff
-style Worker fill:#374151,stroke:#9ca3af,color:#fff
+style Worker fill:#4c1d95,stroke:#a855f7,color:#fff
 style BD fill:#78350f,stroke:#fbbf24,color:#fff
 style Cache fill:#78350f,stroke:#fbbf24,color:#fff
 style Storage fill:#78350f,stroke:#fbbf24,color:#fff

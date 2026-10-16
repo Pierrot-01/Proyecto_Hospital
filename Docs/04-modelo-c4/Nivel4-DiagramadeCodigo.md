@@ -21,6 +21,8 @@ Mostrar **cómo está estructurado el código fuente** de los componentes del Ni
 
 ## 2. Diagrama de clases
 
+<!-- imagen #10 — C4 Nivel 4: Diagrama UML de Clases — Módulos Citas y Notificaciones -->
+
 ```mermaid
 classDiagram
     direction TB
@@ -194,6 +196,8 @@ classDiagram
 ---
 
 ## 3. Diagrama de secuencia: reservar cita médica
+
+<!-- imagen #11 — C4 Nivel 4: Diagrama de Secuencia — Reservar Cita con Control de Concurrencia -->
 
 ```mermaid
 sequenceDiagram

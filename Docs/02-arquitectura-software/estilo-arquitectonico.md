@@ -17,61 +17,63 @@ Se utiliza el estilo arquitectónico: **monolito modular + workers**.
 
 ## Diagrama del estilo arquitectónico: Monolito modular con workers
 
+<!-- imagen #02 — Estilo Arquitectónico: Monolito Modular con Workers -->
+
 ![Estilo Arquitectónico Monolito Modular con Workers](../../Img/img_estilo_monolito.svg)
 
 ```mermaid
 flowchart TD
 
-subgraph CLIENTE["CANAL DE ACCESO"]
-    SPA["Aplicación Web Hospitalaria (SPA)"]
+subgraph CLIENTE["🌐 CANAL DE ACCESO"]
+    SPA["<b>Aplicación Web (SPA)</b><br>Angular 18 / TypeScript<br>Portal de pacientes y personal clínico"]
 end
 
-subgraph MONOLITO["BACKEND: MONOLITO MODULAR HRA (Un solo proceso)"]
-    API["API REST Gateway / Controladores"]
-    
-    subgraph MODULOS["Límites Modulares de Dominio"]
-        M1["Módulo Identidad y Acceso"]
-        M2["Módulo Pacientes"]
-        M3["Módulo Citas Médicas"]
-        M4["Módulo Atenciones Clínicas"]
-        M5["Módulo Diagnósticos"]
-        M6["Módulo Notificaciones"]
-        M7["Módulo Auditoría"]
+subgraph MONOLITO["⚙️ BACKEND — MONOLITO MODULAR HRA (Un único proceso desplegable)"]
+    API["<b>API REST Gateway</b><br>Entrypoint unificado · JWT · RBAC · Validación DTOs"]
+
+    subgraph MODULOS["📦 Límites Modulares de Dominio — Cada módulo: dominio / aplicación / infraestructura"]
+        M1["<b>Identidad y Acceso</b><br>Credenciales, roles y JWT"]
+        M2["<b>Pacientes</b><br>Filiación y validación DNI"]
+        M3["<b>Citas Médicas</b><br>Agendas, cupos y reserva concurrente"]
+        M4["<b>Atenciones Clínicas</b><br>Consultas médicas y evolución"]
+        M5["<b>Diagnósticos</b><br>Laboratorio, imágenes y PDFs"]
+        M6["<b>Notificaciones</b><br>Correos de confirmación y alertas"]
+        M7["<b>Auditoría</b><br>Pistas inmutables — solo INSERT"]
     end
 end
 
-subgraph ASINCRONO["PROCESAMIENTO ASÍNCRONO"]
-    Worker["Workers en Segundo Plano (PDFs y Avisos)"]
+subgraph ASINCRONO["🔄 PROCESAMIENTO ASÍNCRONO (fuera del hilo HTTP)"]
+    Worker["<b>Workers en Segundo Plano</b><br>Generación de PDFs pesados · Despacho masivo SMTP"]
 end
 
-subgraph DATOS["PERSISTENCIA Y CACHÉ"]
-    BD[("Base de Datos Relacional PostgreSQL")]
-    Cache[("Caché en Memoria Redis")]
+subgraph DATOS["💾 PERSISTENCIA Y CACHÉ"]
+    BD[("🗄️ PostgreSQL 16<br>Garantía ACID · Unicidad de cupos")]
+    Cache[("⚡ Redis 7<br>Candados SET NX EX · Caché de agendas")]
 end
 
-SPA -->|HTTPS| API
-API --> MODULOS
-MODULOS --> BD
-MODULOS --> Cache
-MODULOS -.->|Encola tareas| Worker
-Worker --> BD
+SPA -->|"HTTPS · REST + JWT"| API
+API -->|"Invocación en memoria por módulo"| MODULOS
+MODULOS -->|"SQL transaccional"| BD
+M3 -->|"Candado distribuido SET NX EX"| Cache
+MODULOS -.-|"Encola tareas asíncronas"| Worker
+Worker -->|"Actualiza estado en BD"| BD
 
-style CLIENTE fill:#1e293b,stroke:#38bdf8,stroke-width:2px,color:#fff
+style CLIENTE fill:#0c4a6e,stroke:#38bdf8,stroke-width:2px,color:#fff
 style MONOLITO fill:#0f172a,stroke:#22c55e,stroke-width:2px,color:#fff
 style MODULOS fill:#1e293b,stroke:#64748b,stroke-dasharray: 5 5,color:#fff
-style ASINCRONO fill:#1e293b,stroke:#a855f7,stroke-width:2px,color:#fff
-style DATOS fill:#1e293b,stroke:#fbbf24,stroke-width:2px,color:#fff
+style ASINCRONO fill:#2e1065,stroke:#a855f7,stroke-width:2px,color:#fff
+style DATOS fill:#78350f,stroke:#fbbf24,stroke-width:2px,color:#fff
 
-style SPA fill:#1e3a8a,stroke:#38bdf8,color:#fff
+style SPA fill:#1e3a8a,stroke:#60a5fa,color:#fff
 style API fill:#312e81,stroke:#818cf8,color:#fff
 style M1 fill:#14532d,stroke:#4ade80,color:#fff
 style M2 fill:#14532d,stroke:#4ade80,color:#fff
-style M3 fill:#14532d,stroke:#4ade80,color:#fff
+style M3 fill:#166534,stroke:#86efac,stroke-width:2px,color:#fff
 style M4 fill:#14532d,stroke:#4ade80,color:#fff
 style M5 fill:#14532d,stroke:#4ade80,color:#fff
 style M6 fill:#14532d,stroke:#4ade80,color:#fff
-style M7 fill:#14532d,stroke:#4ade80,color:#fff
-style Worker fill:#581c87,stroke:#c084fc,color:#fff
-style BD fill:#78350f,stroke:#fbbf24,color:#fff
-style Cache fill:#78350f,stroke:#fbbf24,color:#fff
+style M7 fill:#14532d,stroke:#6ee7b7,color:#fff
+style Worker fill:#4c1d95,stroke:#c084fc,color:#fff
+style BD fill:#92400e,stroke:#fde68a,color:#fff
+style Cache fill:#92400e,stroke:#fde68a,color:#fff
 ```
