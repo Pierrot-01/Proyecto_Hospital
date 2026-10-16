@@ -74,18 +74,18 @@ src/
 ```mermaid
 flowchart TD
 
-    subgraph PRESENTACION["🖥️ PRESENTACIÓN — Controladores HTTP"]
+    subgraph PRESENTACION["PRESENTACIÓN — Controladores HTTP"]
         P1["<b>CitaController</b><br>POST /api/v1/citas<br>Traduce HTTP ⇄ Casos de Uso"]
         P2["<b>DTOs de Entrada y JWT Guards</b><br>Validación de esquemas y roles RBAC"]
     end
 
-    subgraph APLICACION["⚙️ APLICACIÓN — Casos de Uso (sin frameworks)"]
+    subgraph APLICACION["APLICACIÓN — Casos de Uso (sin frameworks)"]
         A1["<b>ReservarCitaUseCase</b><br>Orquesta: candado → validar → guardar → notificar"]
         A2["<b>CancelarCitaUseCase</b><br>Libera cupo y notifica al paciente"]
         A3["<b>ReservarCitaCommand</b><br>DTO validado de entrada"]
     end
 
-    subgraph DOMINIO["💎 DOMINIO — Núcleo Puro (sin dependencias externas)"]
+    subgraph DOMINIO["DOMINIO — Núcleo Puro (sin dependencias externas)"]
         D1["<b>Entidad: Cita</b><br>RN-01 a RN-08 · Estado · cancelar()"]
         D2["<b>Obj. de Valor: HorarioCupo</b><br>Inmutable · esFutura()"]
         D3["«interface» CitaRepository<br>guardar() · existeReserva()"]
@@ -93,7 +93,7 @@ flowchart TD
         D5["«interface» BloqueoCupoPort<br>adquirirBloqueo() · liberarBloqueo()"]
     end
 
-    subgraph INFRAESTRUCTURA["🔧 INFRAESTRUCTURA — Adaptadores Concretos"]
+    subgraph INFRAESTRUCTURA["INFRAESTRUCTURA — Adaptadores Concretos"]
         I1["<b>PostgresCitaRepository</b><br>Implementa CitaRepository con SQL"]
         I2["<b>RedisBloqueoAdapter</b><br>Implementa BloqueoCupoPort con SET NX EX"]
         I3["<b>SmtpNotificadorAdapter</b><br>Implementa NotificadorPort con JavaMail"]

@@ -26,7 +26,7 @@ Mostrar el **Sistema Hospitalario HRA como una sola caja**: quiénes interactúa
 flowchart TD
 
 %% Personas
-subgraph PERSONAS["👥 PERSONAS — Usuarios del Sistema"]
+subgraph PERSONAS["PERSONAS — Usuarios del Sistema"]
     Paciente["<b>Paciente</b><br>Persona<br>Reserva citas, consulta historial<br>y descarga resultados."]
     Admision["<b>Personal de Admisión</b><br>Persona<br>Registra pacientes y gestiona<br>turnos presenciales."]
     Medico["<b>Médico / Profesional</b><br>Persona<br>Registra atenciones y firma<br>informes diagnósticos."]
@@ -34,12 +34,12 @@ subgraph PERSONAS["👥 PERSONAS — Usuarios del Sistema"]
 end
 
 %% Sistema en alcance
-subgraph ALCANCE["🏥 SISTEMA EN ALCANCE"]
+subgraph ALCANCE["SISTEMA EN ALCANCE"]
     HRA["<b>Sistema HRA</b><br>Sistema de Software<br>Plataforma integral de gestión de citas,<br>atenciones y resultados diagnósticos."]
 end
 
 %% Sistemas externos
-subgraph EXTERNOS["🌐 SISTEMAS EXTERNOS"]
+subgraph EXTERNOS["SISTEMAS EXTERNOS"]
     RENIEC["<b>Servicio RENIEC</b><br>Sistema Externo<br>Valida identidad del ciudadano<br>mediante DNI."]
     Notificador["<b>Servicio de Notificaciones</b><br>Sistema Externo<br>Envía correos electrónicos<br>y mensajes de confirmación."]
     Firma["<b>Servicio Firma Digital</b><br>Sistema Externo<br>Certifica e impone sellos de<br>tiempo a informes médicos."]

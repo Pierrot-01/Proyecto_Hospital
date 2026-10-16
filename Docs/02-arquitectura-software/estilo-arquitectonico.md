@@ -24,14 +24,14 @@ Se utiliza el estilo arquitectónico: **monolito modular + workers**.
 ```mermaid
 flowchart TD
 
-subgraph CLIENTE["🌐 CANAL DE ACCESO"]
+subgraph CLIENTE["CANAL DE ACCESO"]
     SPA["<b>Aplicación Web (SPA)</b><br>Angular 18 / TypeScript<br>Portal de pacientes y personal clínico"]
 end
 
-subgraph MONOLITO["⚙️ BACKEND — MONOLITO MODULAR HRA (Un único proceso desplegable)"]
+subgraph MONOLITO["BACKEND — MONOLITO MODULAR HRA (Un único proceso desplegable)"]
     API["<b>API REST Gateway</b><br>Entrypoint unificado · JWT · RBAC · Validación DTOs"]
 
-    subgraph MODULOS["📦 Límites Modulares de Dominio — Cada módulo: dominio / aplicación / infraestructura"]
+    subgraph MODULOS["Límites Modulares de Dominio — Cada módulo: dominio / aplicación / infraestructura"]
         M1["<b>Identidad y Acceso</b><br>Credenciales, roles y JWT"]
         M2["<b>Pacientes</b><br>Filiación y validación DNI"]
         M3["<b>Citas Médicas</b><br>Agendas, cupos y reserva concurrente"]
@@ -42,13 +42,13 @@ subgraph MONOLITO["⚙️ BACKEND — MONOLITO MODULAR HRA (Un único proceso de
     end
 end
 
-subgraph ASINCRONO["🔄 PROCESAMIENTO ASÍNCRONO (fuera del hilo HTTP)"]
+subgraph ASINCRONO["PROCESAMIENTO ASÍNCRONO (fuera del hilo HTTP)"]
     Worker["<b>Workers en Segundo Plano</b><br>Generación de PDFs pesados · Despacho masivo SMTP"]
 end
 
-subgraph DATOS["💾 PERSISTENCIA Y CACHÉ"]
-    BD[("🗄️ PostgreSQL 16<br>Garantía ACID · Unicidad de cupos")]
-    Cache[("⚡ Redis 7<br>Candados SET NX EX · Caché de agendas")]
+subgraph DATOS["PERSISTENCIA Y CACHÉ"]
+    BD[("PostgreSQL 16<br>Garantía ACID · Unicidad de cupos")]
+    Cache[("Redis 7<br>Candados SET NX EX · Caché de agendas")]
 end
 
 SPA -->|"HTTPS · REST + JWT"| API

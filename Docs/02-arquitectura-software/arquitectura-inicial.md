@@ -12,7 +12,7 @@ flowchart TD
 %% =========================
 %% ACTORES
 %% =========================
-subgraph ACTORES["👥 ACTORES DEL SISTEMA"]
+subgraph ACTORES["ACTORES DEL SISTEMA"]
     Paciente["<b>Paciente</b><br>Reserva citas y descarga resultados"]
     Admision["<b>Personal de Admisión</b><br>Registra pacientes y gestiona turnos"]
     Medico["<b>Médico / Profesional</b><br>Registra atenciones y firma diagnósticos"]
@@ -22,7 +22,7 @@ end
 %% =========================
 %% PRESENTACIÓN
 %% =========================
-subgraph PRESENTACION["🖥️ CAPA DE PRESENTACIÓN"]
+subgraph PRESENTACION["CAPA DE PRESENTACIÓN"]
     Web["<b>Aplicación Web (SPA)</b><br>Angular 18 · TypeScript<br>Interfaz responsiva — HTTPS"]
     API["<b>API REST Gateway</b><br>Entrypoint unificado<br>JWT · Validación DTOs · RBAC"]
 end
@@ -30,7 +30,7 @@ end
 %% =========================
 %% LÓGICA DE NEGOCIO (MÓDULOS)
 %% =========================
-subgraph NEGOCIO["⚙️ LÓGICA DE NEGOCIO — MONOLITO MODULAR"]
+subgraph NEGOCIO["LÓGICA DE NEGOCIO — MONOLITO MODULAR"]
     Usuarios["<b>Usuarios y Autenticación</b><br>Credenciales, roles y tokens JWT"]
     Pacientes["<b>Gestión de Pacientes</b><br>Filiación, historia clínica y DNI"]
     Citas["<b>Citas y Programación</b><br>Agendas, cupos y reserva concurrente"]
@@ -43,16 +43,16 @@ end
 %% =========================
 %% DATOS Y ALMACENAMIENTO
 %% =========================
-subgraph DATOS["💾 DATOS Y CACHÉ"]
-    BD[("🗄️ PostgreSQL 16<br>Garantía ACID — Transacciones")]
-    Cache[("⚡ Redis 7<br>Caché y Candados Distribuidos")]
-    Storage[("📁 MinIO / S3<br>PDFs e Imágenes Médicas")]
+subgraph DATOS["DATOS Y CACHÉ"]
+    BD[("PostgreSQL 16<br>Garantía ACID — Transacciones")]
+    Cache[("Redis 7<br>Caché y Candados Distribuidos")]
+    Storage[("MinIO / S3<br>PDFs e Imágenes Médicas")]
 end
 
 %% =========================
 %% SISTEMAS EXTERNOS
 %% =========================
-subgraph EXTERNOS["🌐 SISTEMAS EXTERNOS"]
+subgraph EXTERNOS["SISTEMAS EXTERNOS"]
     RENIEC["<b>RENIEC</b><br>Validación DNI — HTTPS REST"]
     EmailSMS["<b>Servicio SMTP</b><br>Correos y alertas — TLS 587"]
     FirmaDigital["<b>Firma Digital</b><br>Sellado criptográfico — HTTPS"]
