@@ -253,7 +253,7 @@ sequenceDiagram
     end
 ```
 
-![Diagrama de secuencia de reservar cita](../../Img/img08.png)
+
 
 > **Archivo editable:** `img/fuentes/nivel4-secuencia.svg`
 
