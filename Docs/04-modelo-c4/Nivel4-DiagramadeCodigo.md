@@ -138,7 +138,6 @@ classDiagram
     SmtpNotificadorAdapter ..|> NotificadorPort : implementa
 ```
 
-![Diagrama de clases de los módulos Citas y Notificaciones](../../Img/img07.png)
 
 > **Archivo editable:** `img/fuentes/nivel4-clases.svg`
 
