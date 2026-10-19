@@ -109,7 +109,6 @@ style Notificaciones fill:#14532d,stroke:#4ade80,color:#fff
 style Auditoria fill:#14532d,stroke:#4ade80,color:#fff
 ```
 
-![Diagrama de componentes de la API Backend HRA](../../Img/img06.png)
 
 > **Archivo editable:** `img/fuentes/nivel3-componentes.drawio`
 
