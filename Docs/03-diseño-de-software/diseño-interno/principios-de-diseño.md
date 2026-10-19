@@ -12,7 +12,6 @@ Documentar cómo se aplican los principios SOLID en el backend del sistema HRA, 
 
 ## SOLID en el módulo Citas
 
-![Principios SOLID en el Módulo Citas](../../../Img/img10.png)
 
 ```mermaid
 flowchart TD
