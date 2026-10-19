@@ -72,7 +72,7 @@ style Notificador fill:#9a3412,stroke:#f97316,color:#fff
 style Firma fill:#9a3412,stroke:#f97316,color:#fff
 ```
 
-![Diagrama de contexto del Sistema HRA](../../Img/img04.png)
+
 
 > **Archivo editable:** `img/fuentes/nivel1-contexto.drawio`
 
