@@ -19,7 +19,7 @@ Se utiliza el estilo arquitectónico: **monolito modular + workers**.
 
 <!-- imagen #02 — Estilo Arquitectónico: Monolito Modular con Workers -->
 
-![Estilo Arquitectónico Monolito Modular con Workers](../../Img/img_estilo_monolito.svg)
+
 
 ```mermaid
 flowchart TD
