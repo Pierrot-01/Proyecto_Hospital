@@ -12,7 +12,7 @@ Documentar los patrones de diseño aplicados en el backend del sistema HRA, indi
 
 ## Patrones aplicados
 
-![Patrones de Diseño Aplicados](../../../Img/img09.png)
+
 
 ```mermaid
 flowchart TD
